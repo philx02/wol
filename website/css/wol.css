@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Droid Sans";
+  src: url(DroidSans/DroidSans.ttf);
+}
+
+body, .input_temperature_command_button, .mode_button
+{
+  font-family: "Droid Sans";
+}
+
+#status {
+  width: 100%;
+  font-size: 80px;
+  text-align: center;
+}
+
+#wake_up_button {
+  width: 100%;
+  font-size: 80px;
+}

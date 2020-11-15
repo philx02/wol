@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wake On Lan</title>
+<script src="common.js"></script>
+<link rel="stylesheet" type="text/css" href="css/wol.css"/>
+</head>
+ 
+<body onload="start()">
+
+<script>
+
+  var wWebSocket;
+
+  function start()
+  {
+    try
+    {
+      if (typeof QueryString.server != 'undefined')
+        wWebSocket = new WebSocket(QueryString.server);
+      else
+        wWebSocket = new WebSocket("wss://" + window.location.hostname + "/wswol");
+    }
+    catch (exc)
+    {
+      console.log(exc.message);
+    }
+    wWebSocket.onmessage = function (evt) { parseMessage(evt); };
+  }
+
+  function parseMessage(evt)
+  {
+    console.log(evt.data);
+    if (evt.data == "True")
+    {
+      document.getElementById("status").innerHTML = "ON"
+      document.getElementById("status").style.backgroundColor = "green"
+    }
+    else if (evt.data == "False")
+    {
+      document.getElementById("status").innerHTML = "OFF"
+      document.getElementById("status").style.backgroundColor = "red"
+    }
+  }
+
+  function wakeUp()
+  {
+    wWebSocket.send("wol");
+  }
+</script>
+
+<p>
+<div id="status">&nbsp;</div>
+</p>
+
+<p>
+<div>
+  <input id="wake_up_button" value="WAKE UP!" onclick="wakeUp()" type="button"/>
+</div>
+</p>
+
+</body>
+</html>
